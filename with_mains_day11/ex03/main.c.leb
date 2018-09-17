@@ -1,0 +1,69 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelbouha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/01/27 12:53:18 by lelbouha          #+#    #+#             */
+/*   Updated: 2016/01/27 12:53:21 by lelbouha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include "ft_list.h"
+
+int		ft_list_size(t_list *begin_list);
+
+t_list	*ft_create_elem(void *data)
+{
+	t_list	*mylist;
+
+	mylist = malloc(sizeof(t_list));
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = NULL;
+	}
+	return (mylist);
+}
+
+void	ft_list_push_front(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+	t_list		*tmp;
+
+	mylist = ft_create_elem(data);
+	tmp = *begin_list;
+	if (mylist)
+	{
+		while (tmp->next != '\0')
+			tmp = tmp->next;
+		tmp->next = mylist;
+	}
+}
+
+void	ft_print_list(t_list *mylist)
+{
+	if (mylist)
+	{
+		ft_print_list(mylist->next);
+		printf("%s\n", (char *)mylist->data);
+	}
+}
+
+int		main(void)
+{
+	t_list	*mylist;
+	char	*start;
+
+	start = "1 - A";
+	mylist = ft_create_elem(start);
+	ft_list_push_front(&mylist, "2 - B");
+	ft_list_push_front(&mylist, "3 - c");
+	ft_list_push_front(&mylist, "4 - D");
+	ft_list_push_front(&mylist, "5 - E");
+	ft_print_list(mylist);
+	printf("\ntaille de la liste : %d\n\n\n", ft_list_size(mylist));
+	return (0);
+}

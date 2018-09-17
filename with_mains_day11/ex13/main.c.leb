@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include "ft_list.h"
+
+void	ft_list_merge(t_list **begin_list1, t_list *begin_list2);
+
+void	ft_print_list(t_list *mylist)
+{
+	if (mylist)
+	{
+		ft_print_list(mylist->next);
+		printf("%s\n", (char *)mylist->data);
+	}
+}
+
+t_list	*ft_create_elem(void *data)
+{
+	t_list	*mylist;
+
+	mylist = malloc(sizeof(t_list));
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = NULL;
+	}
+	return (mylist);
+}
+
+void	ft_list_push_front(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+	t_list		*tmp;
+
+	mylist = ft_create_elem(data);
+	tmp = *begin_list;
+	if (mylist)
+	{
+		while (tmp->next != '\0')
+			tmp = tmp->next;
+		tmp->next = mylist;
+	}
+}
+
+void	ft_list_push_back(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+
+	mylist = ft_create_elem(data);
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = *begin_list;
+		*begin_list = mylist;
+	}
+}
+
+int		main()
+{
+	t_list	*mylist1;
+	t_list	*mylist2;
+
+	mylist1 = ft_create_elem("1 - A");
+	ft_list_push_front(&mylist1, "1 - B");
+	ft_list_push_front(&mylist1, "1 - C");
+	ft_list_push_front(&mylist1, "1 - D");
+	mylist2 = ft_create_elem("2 - E");
+	ft_list_push_front(&mylist2, "2 - F");
+	ft_list_push_front(&mylist2, "2 - G");
+	ft_list_push_front(&mylist2, "2 - H");
+	printf("ft_print_list list1 -------------------------\n");
+	ft_print_list(mylist1);
+	printf("ft_print_list list2 -------------------------\n");
+	ft_print_list(mylist2);
+	ft_list_merge(&mylist1, mylist2);
+	printf("ft_print_list list1 -------------------------\n");
+	ft_print_list(mylist1);
+	return (0);
+}

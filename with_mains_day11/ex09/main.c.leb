@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include "ft_list.h"
+
+void	ft_list_foreach(t_list *begin_list, void (*f)(void *));
+
+void	ft_print_list(t_list *mylist)
+{
+	if (mylist)
+	{
+		ft_print_list(mylist->next);
+		printf("%s\n", (char *)mylist->data);
+	}
+}
+
+t_list	*ft_create_elem(void *data)
+{
+	t_list	*mylist;
+
+	mylist = malloc(sizeof(t_list));
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = NULL;
+	}
+	return (mylist);
+}
+
+void	ft_list_push_front(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+	t_list		*tmp;
+
+	mylist = ft_create_elem(data);
+	tmp = *begin_list;
+	if (mylist)
+	{
+		while (tmp->next != '\0')
+			tmp = tmp->next;
+		tmp->next = mylist;
+	}
+}
+
+void	ft_list_push_back(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+
+	mylist = ft_create_elem(data);
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = *begin_list;
+		*begin_list = mylist;
+	}
+}
+
+void 	mafonction(void *t)
+{
+	char	*str;
+
+	str = (char *)t;
+	printf("%s\n", str);
+}
+
+int		main()
+{
+	t_list	*mylist;
+	char	*start;
+
+	start = "1 - A";
+	mylist = ft_create_elem(start);
+	ft_list_push_back(&mylist, "2 - B");
+	ft_list_push_back(&mylist, "3 - C");
+	ft_list_push_back(&mylist, "4 - D");
+	ft_list_push_back(&mylist, "5 - E");
+	ft_list_push_back(&mylist, "6 - F");
+	ft_list_push_back(&mylist, "7 - G");
+	printf("------------------ liste par ft_print_list : \n");
+	ft_print_list(mylist);
+	printf("------------------ element imprimes par  la fonction : \n");
+	ft_list_foreach(mylist, mafonction);
+	return (0);
+}

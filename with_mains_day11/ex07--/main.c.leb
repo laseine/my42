@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelbouha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/02/03 15:03:40 by lelbouha          #+#    #+#             */
+/*   Updated: 2016/02/03 15:45:32 by lelbouha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include "ft_list.h"
+
+t_list	*ft_list_at(t_list *begin_list, unsigned int nbr);
+
+t_list	*ft_create_elem(void *data)
+{
+	t_list	*mylist;
+
+	mylist = malloc(sizeof(t_list));
+	if (mylist)
+	{
+		mylist->data = data;
+		mylist->next = NULL;
+	}
+	return (mylist);
+}
+
+void	ft_list_push_front(t_list **begin_list, void *data)
+{
+	t_list		*mylist;
+	t_list		*tmp;
+
+	mylist = ft_create_elem(data);
+	tmp = *begin_list;
+	if (mylist)
+	{
+		while (tmp->next != '\0')
+			tmp = tmp->next;
+		tmp->next = mylist;
+	}
+}
+
+void	ft_print_list(t_list *mylist)
+{
+	if (mylist)
+	{
+		ft_print_list(mylist->next);
+		printf("%s\n", (char *)mylist->data);
+	}
+}
+
+int		main(void)
+{
+	t_list	*mylist;
+	t_list	*thelist;
+	char	*start;
+
+	start = "1 - A";
+	mylist = ft_create_elem(start);
+	ft_list_push_front(&mylist, "2 - B");
+	ft_list_push_front(&mylist, "3 - c");
+	ft_list_push_front(&mylist, "4 - D");
+	ft_list_push_front(&mylist, "5 - E");
+	ft_print_list(mylist);
+	thelist = ft_list_at(mylist, 3);
+	if (thelist)
+		printf("Troisieme : %s\n", (char *)thelist->data);
+	else
+		printf("3eme n'existe pas\n");
+	thelist = ft_list_at(mylist, 6);
+	if (thelist)
+		printf("Sixieme   ; %s\n", (char *)thelist->data);
+	else
+		printf("6eme n'existe pas\n");
+	return (0);
+}

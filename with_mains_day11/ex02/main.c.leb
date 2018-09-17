@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include "ft_list.h"
+
+void 	ft_list_push_front(t_list **begin_list, void *data);
+
+t_list	*ft_create_elem(void *data);
+
+void	ft_print_list(t_list *mylist)
+{
+	if (mylist)
+	{
+		ft_print_list(mylist->next);
+		printf("%s\n", (char *)mylist->data);
+	}
+}
+
+int		main()
+{
+	t_list	*mylist;
+	char	*start;
+
+	start = "1 - A";
+	mylist = ft_create_elem(start);
+	ft_list_push_front(&mylist, "2 - B");
+	ft_list_push_front(&mylist, "3 - c");
+	ft_list_push_front(&mylist, "4 - D");
+	ft_list_push_front(&mylist, "5 - E");
+	
+	ft_print_list(mylist);
+	
+	return (0);
+}
